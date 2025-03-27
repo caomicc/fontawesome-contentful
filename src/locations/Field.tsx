@@ -106,6 +106,7 @@ const Field = () => {
   };
 
   return (
+    <>
     <Stack fullWidth fullHeight spacing="spacingM">
       <div style={{ display: 'flex', alignItems: 'center', minWidth: '200px' }}>
         <div style={{
@@ -134,7 +135,10 @@ const Field = () => {
           onChange={(e) => handleInputValueChange(e.target.value)}
           placeholder="Search icons... (type at least 2 characters)"
         />
-        {filteredItems.length > 0 && (
+
+      </div>
+      </Stack>
+      {filteredItems.length > 0 && (
           <ul style={{
             listStyle: 'none',
             padding: 0,
@@ -190,8 +194,7 @@ const Field = () => {
             ))}
           </ul>
         )}
-      </div>
-    </Stack>
+    </>
   );
 };
 
