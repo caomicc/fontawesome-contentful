@@ -1,7 +1,4 @@
-# Assigning an app to Sidebar and/or Short Fields
-
 This project was bootstrapped with [Create Contentful App](https://github.com/contentful/create-contentful-app).
-!["Config screen view"](https://user-images.githubusercontent.com/3318312/163389377-2e6c8148-a98f-4627-a099-65b7141b1182.png)
 
 ## How to use
 
@@ -9,13 +6,13 @@ Execute create-contentful-app with npm, npx or yarn to bootstrap the example:
 
 ```bash
 # npx
-npx create-contentful-app --example editor-assignment
+npx create-contentful-app --typescript
 
 # npm
-npm init contentful-app -- --example editor-assignment
+npm init contentful-app -- --typescript
 
 # Yarn
-yarn create contentful-app --example editor-assignment
+yarn create contentful-app --typescript
 ```
 
 ## Available Scripts
@@ -80,4 +77,3 @@ to find out more.
 ## Learn More
 
 [Read more](https://www.contentful.com/developers/docs/extensibility/app-framework/create-contentful-app/) and check out the video on how to use the CLI.
-# fontawesome-contentful
