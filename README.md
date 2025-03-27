@@ -90,6 +90,18 @@ A Contentful app that allows users to easily search and select Font Awesome icon
 - Configurable search behavior and appearance
 - Fully customizable through the app configuration screen
 
+## Available Icons
+
+This app includes all icons available in Font Awesome Pro. You can browse the complete collection of icons at [Font Awesome's icon search page](https://fontawesome.com/search). The search includes:
+
+- Over 16,000 icons across all styles
+- Multiple styles per icon (solid, regular, light, thin, duotone)
+- Brand icons for popular services and products
+- Category-based browsing
+- Semantic search terms
+
+Note: Access to all icon styles requires a Font Awesome Pro license. The free version only includes solid and brand icons.
+
 ## Prerequisites
 
 - A Contentful account

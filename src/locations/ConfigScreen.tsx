@@ -101,7 +101,7 @@ const ConfigScreen = () => {
         <Stack spacing="spacingXl" flexDirection="column">
           <Heading>Font Awesome Icon Picker Configuration</Heading>
 
-          <Stack spacing="spacingL" flexDirection="column" textAlign="left">
+          <Stack spacing="spacingL" flexDirection="column" alignItems="left">
             <Subheading>Icon Styles</Subheading>
             {STYLE_OPTIONS.map(style => (
               <FormControl key={style}>

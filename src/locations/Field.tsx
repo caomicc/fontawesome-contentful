@@ -146,7 +146,7 @@ const Field = () => {
 
   return (
     <>
-      <Stack fullWidth fullHeight spacing="spacingM">
+      <Stack fullWidth fullHeight spacing="spacingM" alignItems="flex-start">
         <div style={{ display: 'flex', alignItems: 'center', minWidth: '200px' }}>
           <div style={iconStyle}>
             <i className={selectedItem?.value || ''}/>
@@ -162,6 +162,17 @@ const Field = () => {
             onChange={(e) => handleInputValueChange(e.target.value)}
             placeholder={config.placeholderText}
           />
+          <Text marginTop="spacingXs" fontColor="gray500" fontSize="fontSizeS">
+            Browse all available icons at{' '}
+            <a
+              href="https://fontawesome.com/search"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: '#0077CC', textDecoration: 'underline' }}
+            >
+              Font Awesome's icon search
+            </a>
+          </Text>
         </div>
       </Stack>
       {filteredItems.length > 0 && (
