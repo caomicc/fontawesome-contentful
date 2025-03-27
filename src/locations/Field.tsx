@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Text, Box, Stack, Autocomplete } from '@contentful/f36-components';
+import { Card, Button, Text, Box, Stack, TextInput } from '@contentful/f36-components';
 import { FieldAppSDK } from '@contentful/app-sdk';
-import { useSDK } from '@contentful/react-apps-toolkit';
+import { useSDK, useAutoResizer } from '@contentful/react-apps-toolkit';
 import icons from '../fontawesome';
 
 interface SearchSuggestion {
@@ -52,12 +52,14 @@ Object.keys(icons).forEach((key) => {
 
 const Field = () => {
   const sdk = useSDK<FieldAppSDK>();
+  useAutoResizer();
   const initialValue = sdk.field.getValue() as IconValue;
   const [selectedItem, setSelectedItem] = useState<SearchSuggestion | null>(() => {
     if (!initialValue?.value) return null;
     return items.find(item => item.value === initialValue.value) || null;
   });
   const [filteredItems, setFilteredItems] = useState<SearchSuggestion[]>([]);
+  const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
     if (!initialValue?.value) {
@@ -78,10 +80,13 @@ const Field = () => {
 
   const handleSelectItem = async (item: SearchSuggestion) => {
     setSelectedItem(item);
+    setInputValue('');
+    setFilteredItems([]);
     await sdk.field.setValue({ value: item.value });
   };
 
   const handleInputValueChange = (value: string) => {
+    setInputValue(value);
     if (value.length < 2) {
       setFilteredItems([]);
       return;
@@ -95,65 +100,98 @@ const Field = () => {
         term.toLowerCase().includes(searchVal)
       );
       return matchesName || matchesValue || matchesSearchTerms;
-    }).slice(0, 10);
+    }).slice(0, 5);
 
     setFilteredItems(filtered);
   };
 
   return (
-      <Stack fullWidth fullHeight>
-        <div style={{ display: 'flex', alignItems: 'center', minWidth: '200px' }}>
-          <div style={{
-            background: '#eee',
-            padding: '4px',
-            borderRadius: '4px',
-            fontSize: '20px',
-            width: '36px',
-            textAlign: 'center',
-            height: '36px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            border: '1px solid #E5E5E5'
-          }}>
-            <i className={selectedItem?.value || ''}/>
-          </div>
-          <Box paddingLeft='spacingS'>
-            <div style={{ fontWeight: 'bold' }}>{selectedItem?.name || 'No icon selected'}</div>
-            <div style={{ color: '#6B7280', lineHeight: '1' }}>{selectedItem?.value || ''}</div>
-          </Box>
+    <Stack fullWidth fullHeight spacing="spacingM">
+      <div style={{ display: 'flex', alignItems: 'center', minWidth: '200px' }}>
+        <div style={{
+          background: '#eee',
+          padding: '4px',
+          borderRadius: '4px',
+          fontSize: '20px',
+          width: '36px',
+          textAlign: 'center',
+          height: '36px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          border: '1px solid #E5E5E5'
+        }}>
+          <i className={selectedItem?.value || ''}/>
         </div>
-        <Autocomplete
-          items={filteredItems}
-          onInputValueChange={handleInputValueChange}
-          onSelectItem={handleSelectItem}
-          itemToString={(item) => item.name}
-          renderItem={(item) => (
-            <Box display="flex" alignItems="center" gap="spacingS">
-              <div style={{
-                background: '#eee',
-                padding: '4px',
-                borderRadius: '4px',
-                fontSize: '20px',
-                width: '36px',
-                textAlign: 'center',
-                height: '36px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1px solid #E5E5E5'
-              }}>
-                <i className={item.value}/>
-              </div>
-              <Box paddingLeft='spacingS'>
-                <div style={{ fontWeight: 'bold' }}>{item.name}</div>
-                <div style={{ color: '#6B7280', lineHeight: '1' }}>{item.value}</div>
-              </Box>
-            </Box>
-          )}
+        <Box paddingLeft='spacingS'>
+          <div style={{ fontWeight: 'bold' }}>{selectedItem?.name || 'No icon selected'}</div>
+          <div style={{ color: '#6B7280', lineHeight: '1' }}>{selectedItem?.value || ''}</div>
+        </Box>
+      </div>
+      <div style={{ width: '100%' }}>
+        <TextInput
+          value={inputValue}
+          onChange={(e) => handleInputValueChange(e.target.value)}
           placeholder="Search icons... (type at least 2 characters)"
         />
-      </Stack>
+        {filteredItems.length > 0 && (
+          <ul style={{
+            listStyle: 'none',
+            padding: 0,
+            margin: '8px 0 0 0',
+            maxHeight: '300px',
+            overflowY: 'auto',
+            border: '1px solid #E5E5E5',
+            borderRadius: '4px',
+            width: '100%'
+          }}>
+            {filteredItems.map((item, index) => (
+              <li
+                key={index}
+                onClick={() => handleSelectItem(item)}
+                style={{
+                  padding: '8px 12px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  borderBottom: index < filteredItems.length - 1 ? '1px solid #E5E5E5' : 'none',
+                  backgroundColor: 'transparent',
+                  width: '100%'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#f5f5f5';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
+              >
+                <div style={{
+                  background: '#eee',
+                  padding: '4px',
+                  borderRadius: '4px',
+                  fontSize: '20px',
+                  width: '36px',
+                  textAlign: 'center',
+                  height: '36px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: '1px solid #E5E5E5',
+                  flexShrink: 0
+                }}>
+                  <i className={item.value}/>
+                </div>
+                <Box style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 'bold' }}>{item.name}</div>
+                  <div style={{ color: '#6B7280', lineHeight: '1' }}>{item.value}</div>
+                </Box>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </Stack>
   );
 };
 
